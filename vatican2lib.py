@@ -72,9 +72,9 @@ class Chapter:
 
 class Document:
     def __init__(self, latin_title, english_title, publish_date) -> None:
-        self.english_title = english_title
-        self.latin_title = latin_title
-        self.publish_date = publish_date
+        self.english_title = english_title.strip()
+        self.latin_title = latin_title.strip()
+        self.publish_date = publish_date.strip()
         self.chapters = list()
 
     def add_chapter(self, new_chapter):
