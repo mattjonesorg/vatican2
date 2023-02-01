@@ -60,12 +60,12 @@ class DocumentProcessor:
 
 
 class Chapter:
-    number = 0
+    roman_numeral = ""
     title = ""
     paragraphs = dict()
 
-    def __init__(self, number, title) -> None:
-        self.number = number
+    def __init__(self, roman_numeral, title) -> None:
+        self.roman_numeral = roman_numeral
         self.title = title
         self.paragraphs = dict()
 
