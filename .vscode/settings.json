@@ -1,0 +1,8 @@
+{
+    "python.analysis.extraPaths": [
+        "./modules"
+    ],
+    "terminal.integrated.env.windows": {
+        "PYTHONPATH": "${workspaceFolder};${workspaceFolder}/modules"
+    }
+}
