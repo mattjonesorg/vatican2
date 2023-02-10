@@ -51,6 +51,19 @@ class DocumentProcessor:
 
     def parse_paragraph(self, text):
         current_text = ''
+        paragraph_number = 0
+        period_position = text.find('.')
+        if period_position > 0 and period_position < 5:
+            paragraph_number_text = text[:period_position]
+            try:
+                paragraph_number = int(paragraph_number_text)
+            except ValueError as ex:
+                print('Error parsing paragraph number: {0}'.format(
+                    paragraph_number_text))
+
+            current_text = text[period_position+1:].strip()
+       # if len(current_text) > 0:
+       #     self.current_chapter.paragraphs[paragraph_number] = current_text
 
     def is_element_blank(self, element):
         return element.name == 'br' or len(element.text) == 0
@@ -62,12 +75,35 @@ class DocumentProcessor:
 class Chapter:
     roman_numeral = ""
     title = ""
+    number = 0
     paragraphs = dict()
 
     def __init__(self, roman_numeral, title) -> None:
         self.roman_numeral = roman_numeral
         self.title = title
         self.paragraphs = dict()
+        self.number = self.convert_roman_numeral_to_int(roman_numeral)
+
+    def add_paragraph(self, paragraph_number, text):
+        self.paragraphs[paragraph_number] = text
+
+    def convert_roman_numeral_to_int(self, roman_numeral):
+        roman_numeral = roman_numeral.upper()
+        roman_numeral_map = zip(
+            (1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1),
+            ('M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV', 'I'))
+        result = 0
+        index = 0
+        for integer, numeral in roman_numeral_map:
+            while roman_numeral[index:index+len(numeral)] == numeral:
+                result += integer
+                index += len(numeral)
+
+        if len(roman_numeral) > 0 and result == 0:
+            raise ValueError(
+                'Invalid Roman numeral: {0}'.format(roman_numeral))
+
+        return result
 
 
 class Document:
